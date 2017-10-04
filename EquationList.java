@@ -27,17 +27,19 @@ import java.util.*;
 
 public class EquationList {
 
-    private ArrayList<ArrayList<Integer>> matrix;
-    private ArrayList<Integer> resultColoumn;
+    private ArrayList<ArrayList<Double>> matrix;
+    private ArrayList<Double> resultColoumn;
     private HashMap<Character, Integer> associative_variable;
+    private ArrayList<Character> listVariable;
     private ArrayList<String> equationList;
     private Integer numOfVariable = 0;
 
 
     public EquationList() {
-        matrix = new ArrayList<ArrayList<Integer>>();
+        matrix = new ArrayList<ArrayList<Double>>();
         associative_variable = new HashMap<Character, Integer>();
         equationList = new ArrayList<String>();
+        listVariable = new ArrayList<Character>();
     }
 
     public void addEquation(String equation) {
@@ -52,7 +54,7 @@ public class EquationList {
         }
         // Fill the dinamyc array with 0
         fillEmptyMatrix(associative_variable.size(), equationList.size());
-        resultColoumn = new ArrayList<Integer>(equationList.size());
+        resultColoumn = new ArrayList<Double>(equationList.size());
         // System.out.println("Number of line " + matrix.size());
         // System.out.println("Number of equation " + equationList.size());
         for (int i = 0; i < equationList.size(); i++) {
@@ -68,34 +70,40 @@ public class EquationList {
         // System.out.println(associative_variable.size());
         // System.out.println(matrix.size());
         // System.out.println(matrix.get(0).size());
-        for (int i = 0; i < matrix.size(); i++) {
-            for (int j = 0; j < matrix.get(0).size(); j++) {
-                System.out.print(matrix.get(i).get(j) + " ");
+        System.out.println("\nYour equation system in matrix form:");
+        int i,j;
+        for (i=0;i<matrix.size();i++){
+            for (j=0;j<matrix.get(0).size();j++){
+                if (j==matrix.size()){
+                    System.out.print("|  "+matrix.get(i).get(j));
+                }
+                else{
+                    System.out.print(matrix.get(i).get(j)+"\t");
+                }
             }
             System.out.println("");
         }
     }
 
-    public ArrayList<ArrayList<Integer>> toMatrix() {
+    public ArrayList<ArrayList<Double>> toMatrix() {
         return matrix;
     }
 
-    private ArrayList<Integer> parseCoefficient(String equation, int index) {
-        ArrayList<Integer> arrayList = new ArrayList<Integer>(Collections.nCopies(associative_variable.size(), 0));
-        // System.out.println("associative_variable: " + associative_variable.size());
+    private ArrayList<Double> parseCoefficient(String equation, int index) {
+        ArrayList<Double> arrayList = new ArrayList<Double>(Collections.nCopies(associative_variable.size(), 0.0));
         // Split the string using "+" and "=" as the separator
         String[] parsedEquation = equation.split("\\s*\\+|\\=\\s*");
         for (int i = 0; i < parsedEquation.length - 1; i++) {
             // Parsing the coefficient as integer
             Character variable = parsedEquation[i].charAt(parsedEquation[i].length() - 1);
             parsedEquation[i] = parsedEquation[i].substring(0, parsedEquation[i].length() - 1);
-            Integer coefficient = Integer.parseInt(parsedEquation[i]);
+            Double coefficient = Double.parseDouble(parsedEquation[i]);
 
             // Add the new coefficient into the matrix Line
             // System.out.println(associative_variable.get(variable));
             arrayList.set(associative_variable.get(variable), coefficient);
         }
-        resultColoumn.add(index, Integer.parseInt(parsedEquation[parsedEquation.length - 1]));
+        resultColoumn.add(index, Double.parseDouble(parsedEquation[parsedEquation.length - 1]));
         // System.out.println("arrayList size: " + arrayList.size());
         return arrayList;
     }
@@ -110,6 +118,9 @@ public class EquationList {
         for (int i = 0; i < removedSpace.length; i++) {
             equation += removedSpace[i];
         }
+        //for (int i = 0; i < equation.length(); i++) {
+        //    if (equation.charAt(i) == '')
+        //}
         return equation;
     }
 
@@ -132,6 +143,7 @@ public class EquationList {
             Character variable = parsedEquation[i].charAt(parsedEquation[i].length() - 1);
             if(!associative_variable.containsKey(variable)) {
                 associative_variable.put(variable, numOfVariable);
+                listVariable.add(variable);
                 numOfVariable++;
             }
         }
@@ -140,13 +152,17 @@ public class EquationList {
     private void fillEmptyMatrix(int size_x, int size_y) {
         // Dummy empty array list that will be added to the matrix
         // System.out.println("Number of coloumn: " + size_x);
-        ArrayList<Integer> arrayList = new ArrayList<Integer>(Collections.nCopies(size_x, 0));
+        ArrayList<Double> arrayList = new ArrayList<Double>(Collections.nCopies(size_x, 0.0));
         // System.out.println("Number of coloumn: " + arrayList.size());
         // Add the empty array list to the matrix
         for (int i = 0; i < size_y; i++) {
             matrix.add(arrayList);
         }
         // System.out.println("Number of line: " + matrix.size());
+    }
+
+    public ArrayList<Character> getListOfVariable() {
+        return listVariable;
     }
 
 }
