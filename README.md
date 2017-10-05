@@ -1,7 +1,7 @@
 # equation-solver
 Able to solve basic set of linear equation using gauss elimination technique
 
-# EquationList.java
+## EquationList.java
 Method:
 
 ###### addEquation(string equation)
@@ -12,9 +12,9 @@ Menghasilkan sebuah matriks dari kumpulan persamaan yang tersimpan dalam variabe
 
 ###### writeMatrix()
 Menuliskan matriks yang terdapat dalam objek EquationList dalam format sebagai berikut
-a b c x 
-d e f y
-g e h z
+a b c x  
+d e f y  
+g e h z  
 
 ###### toMatrix()
 Metode yang digunakan untuk mendapatkan nilai matriks yang terdapat dalam objek EquationList
@@ -25,3 +25,19 @@ Metode ini digunakan untuk menyamakan format dari masukan sehingga dapat diprose
 ###### parseCoefficient()
 Mengambil tiap-tiap koefisien dari variabel pada persamaan yang ada dalam objek EquationList. Koefisien inilah yang kemudian akan dimasukan ke dalam matriksnya
 
+
+## ReadFile.java
+Method:
+
+##### readEquationFrom(String filename, EquationList equationList)
+Membaca sebuah file txt yang berisi sistem persamaan linear  
+Contoh file: test.txt  
+2x + 1y = 3  
+1x + 1y = 2  
+
+
+## WriteFile.java
+Method:
+
+##### writeResult(String filename, Matrix matrix)
+Menyimpan hasil solusi sistem persamaan ke dalam suatu file txt
